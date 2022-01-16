@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"log"
 	"time"
 
@@ -21,7 +22,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	gq, err := goquery.NewDocumentFromResponse(req.RawResponse)
+
+	gq, err := goquery.NewDocumentFromReader(bufio.NewReader(req))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,7 +50,7 @@ func main() {
 				return
 			}
 			n.Stats = pinger.Statistics()
-			log.Println(n.Region, n.IP, n.Stats.AvgRtt)
+			log.Printf("%s\t%s\t\t%s\n", n.Region, n.IP, n.Stats.AvgRtt)
 		}
 
 	})
